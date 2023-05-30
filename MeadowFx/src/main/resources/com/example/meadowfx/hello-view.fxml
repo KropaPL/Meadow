@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.meadowfx.HelloController">
+   <children>
+      <AnchorPane fx:id="mapa" layoutX="-1.0" prefHeight="400.0" prefWidth="401.0">
+         <children>
+            <Line endX="107.0" endY="321.0" layoutX="286.0" layoutY="81.0" startX="107.0" startY="-81.0" />
+            <TextFlow fx:id="mapka" layoutX="18.0" layoutY="17.0" prefHeight="368.0" prefWidth="365.0" stylesheets="@CssStyles/mapa.css" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="400.0" prefHeight="400.0" prefWidth="200.0">
+         <children>
+            <Text layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Mięsożercy" wrappingWidth="200.0" />
+            <Text layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Roślinożercy" wrappingWidth="200.0" />
+            <Text layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Wszystkożercy" wrappingWidth="200.0" />
+            <Text layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Roślinność:" wrappingWidth="200.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Zwierzęta:" wrappingWidth="200.0">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Text>
+            <Text layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Jadalne" wrappingWidth="200.0" />
+            <Text layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Trujące" wrappingWidth="200.0" />
+            <Button fx:id="dalej" layoutX="158.0" layoutY="353.0" mnemonicParsing="false" onAction="#dalej" text="⇒" />
+            <Button fx:id="zapisz" layoutX="100.0" layoutY="353.0" mnemonicParsing="false" text="Zapisz" />
+            <Text fx:id="mapa1" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mapa:" wrappingWidth="200.0" />
+            <Text fx:id="iksy" layoutX="5.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="X:" wrappingWidth="17.13671875" />
+            <Text fx:id="igreki" layoutX="91.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Y:" wrappingWidth="17.13671875" />
+            <TextField layoutX="22.0" layoutY="304.0" prefHeight="25.0" prefWidth="28.0" fx:id="xwprowadzone" />
+            <TextField fx:id="ywprowadzone" layoutX="107.0" layoutY="304.0" prefHeight="25.0" prefWidth="28.0" />
+            <Button fx:id="generuj" layoutY="353.0" mnemonicParsing="false" onAction="#generujMape" text="Generuj Mape" />
+            <Text layoutX="7.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Populacja:" wrappingWidth="59.0" />
+            <Text layoutX="7.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Populacja:" wrappingWidth="59.0" />
+            <Text layoutX="7.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Populacja:" wrappingWidth="59.0" />
+            <Text layoutX="-5.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Występowanie:" wrappingWidth="83.0" />
+            <Text layoutX="-5.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Występowanie:" wrappingWidth="83.0" />
+            <Text fx:id="populacjaMiesozercow" layoutX="80.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="83.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Text fx:id="populacjaRoslinozercow" layoutX="80.0" layoutY="118.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="83.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Text fx:id="populacjaWszystkozercow" layoutX="67.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="83.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Text fx:id="wystepowanieJadalne" layoutX="84.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="83.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <Text fx:id="wystepowanieTrujace" layoutX="84.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="83.0">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+            </Text>
+            <TextField fx:id="iloscJadalne" layoutX="89.0" layoutY="205.0" prefHeight="25.0" prefWidth="72.0" />
+            <TextField fx:id="iloscTrujace" layoutX="89.0" layoutY="246.0" prefHeight="25.0" prefWidth="72.0" />
+            <TextField fx:id="iloscWszystkozercy" layoutX="89.0" layoutY="145.0" prefHeight="25.0" prefWidth="72.0" />
+            <TextField fx:id="iloscRoslinozercy" layoutX="89.0" layoutY="100.0" prefHeight="25.0" prefWidth="72.0" />
+            <TextField fx:id="iloscMiesozercy" layoutX="89.0" layoutY="51.0" prefHeight="25.0" prefWidth="72.0" />
+            <Text fx:id="etap" layoutX="145.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Etap:" />
+            <Text fx:id="liczba" layoutX="175.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
