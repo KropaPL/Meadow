@@ -14,7 +14,7 @@ public class Jadalna extends Roślina{
 
     @Override
     public void akcja() {
-        super.akcja();
+
     }
     public void leczenie(){
 

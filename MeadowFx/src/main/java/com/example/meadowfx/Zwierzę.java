@@ -1,7 +1,7 @@
 package com.example.meadowfx;
 
 public class Zwierzę {
-    int nazwa;
+    String nazwa;
     String symbol;
     int życie;
     int glod;

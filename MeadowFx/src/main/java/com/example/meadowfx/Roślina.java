@@ -1,5 +1,7 @@
 package com.example.meadowfx;
 
+import java.util.Random;
+
 public class Roślina {
     String symbol;
     int wzrost;

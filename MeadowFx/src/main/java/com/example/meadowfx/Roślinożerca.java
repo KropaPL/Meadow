@@ -5,6 +5,9 @@ public class Roślinożerca extends Zwierzę{
 
     public Roślinożerca(){
         this.symbol = "S";
+        this.nazwa = "Sarna";
+        this.życie = 100;
+        this.glod = 0;
     }
     @Override
     public void akcja(){
@@ -13,4 +16,5 @@ public class Roślinożerca extends Zwierzę{
     public void unik(){
 
     }
+
 }
