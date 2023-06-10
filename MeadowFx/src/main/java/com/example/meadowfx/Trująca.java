@@ -5,7 +5,7 @@ public class Trująca extends Roślina{
     int odpoczynek;
 
     public Trująca(){
-        this.symbol = "O";
+        this.symbol = "M";
         this.odpoczynek = 2;
         this.trucizna = 50;
         this.maxWiek = 5;

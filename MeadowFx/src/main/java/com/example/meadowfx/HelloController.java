@@ -64,7 +64,7 @@ public class HelloController implements Initializable {
                     Jadalna grzyb = new Jadalna();
                     listaGrzybków.add(grzyb);
                 }
-                for (int i = 0; i < iloscGrzybow; i++) {
+                for (int i = 0; i < iloscMuchomorow; i++) {
                     Trująca muchomor = new Trująca();
                     listaMuchomorow.add(muchomor);
                 }
@@ -111,17 +111,17 @@ public class HelloController implements Initializable {
                     Mapa.add(row); // Add the row to the two-dimensional list
                 }
 
-                int index = listaGrzybków.size() - 1;
+                int index = listaGrzybków.size();
 
                 while (iloscGrzybow > 0) {
                     for (int j = 0; j < y; j++) {
                         for (int k = 0; k < x; k++) {
                             int i = generator.nextInt(100);
                             if (Mapa.get(j).get(k).equals("X") && i < 2) {
+                                index--;
                                 Mapa.get(j).set(k, listaGrzybków.get(index).symbol);
                                 listaGrzybków.get(index).x = j;
                                 listaGrzybków.get(index).y = k;
-                                index--;
                                 iloscGrzybow--;
                                 if (iloscGrzybow == 0) {
                                     break;
@@ -134,17 +134,17 @@ public class HelloController implements Initializable {
                     }
                 }
 
-                index = listaMuchomorow.size() - 1;
+                index = listaMuchomorow.size();
 
                 while (iloscMuchomorow > 0) {
                     for (int j = 0; j < y; j++) {
                         for (int k = 0; k < x; k++) {
                             int i = generator.nextInt(100);
                             if (Mapa.get(j).get(k).equals("X") && i < 2) {
+                                index--;
                                 Mapa.get(j).set(k, listaMuchomorow.get(index).symbol);
                                 listaMuchomorow.get(index).x = j;
                                 listaMuchomorow.get(index).y = k;
-                                index--;
                                 iloscMuchomorow--;
                                 if (iloscMuchomorow == 0) {
                                     break;
@@ -158,17 +158,17 @@ public class HelloController implements Initializable {
                 }
 
 
-                index = listaLisow.size() - 1;
+                index = listaLisow.size();
 
                 while (iloscLisow > 0) {
                     for (int j = 0; j < y; j++) {
                         for (int k = 0; k < x; k++) {
                             int i = generator.nextInt(100);
                             if (Mapa.get(j).get(k).equals("X") && i < 2) {
+                                index--;
                                 Mapa.get(j).set(k, listaLisow.get(index).symbol);
                                 listaLisow.get(index).x = j;
                                 listaLisow.get(index).y = k;
-                                index--;
                                 iloscLisow--;
                                 if (iloscLisow == 0) {
                                     break;
@@ -182,17 +182,17 @@ public class HelloController implements Initializable {
                 }
 
 
-                index = listaSaren.size() - 1;
+                index = listaSaren.size();
 
                 while (iloscSaren > 0) {
                     for (int j = 0; j < y; j++) {
                         for (int k = 0; k < x; k++) {
                             int i = generator.nextInt(100);
                             if (Mapa.get(j).get(k).equals("X") && i < 2) {
+                                index--;
                                 Mapa.get(j).set(k, listaSaren.get(index).symbol);
                                 listaSaren.get(index).x = j;
                                 listaSaren.get(index).y = k;
-                                index--;
                                 iloscSaren--;
                                 if (iloscSaren == 0) {
                                     break;
@@ -205,17 +205,17 @@ public class HelloController implements Initializable {
                     }
                 }
 
-                index = listaJeży.size() - 1;
+                index = listaJeży.size();
 
                 while (iloscJezy > 0) {
                     for (int j = 0; j < y; j++) {
                         for (int k = 0; k < x; k++) {
                             int i = generator.nextInt(100);
                             if (Mapa.get(j).get(k).equals("X") && i < 2) {
+                                index--;
                                 Mapa.get(j).set(k, listaJeży.get(index).symbol);
                                 listaJeży.get(index).x = j;
                                 listaJeży.get(index).y = k;
-                                index--;
                                 iloscJezy--;
                                 if (iloscJezy == 0) {
                                     break;
@@ -260,7 +260,257 @@ public class HelloController implements Initializable {
     private void dalej() {
         iloscEtapow++;
         liczba.setText(String.valueOf(iloscEtapow));
+
+        for (Mięsożerca lis : listaLisow) {
+            int nowyX = lis.x;
+            int nowyY = lis.y;
+            boolean znalezionoWolneMiejsce = false;
+
+            while (!znalezionoWolneMiejsce) {
+                int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
+
+                if (kierunek == 0 && lis.x > 0) { // Poruszanie się w górę
+                    nowyX = lis.x - 1;
+                    nowyY = lis.y;
+                } else if (kierunek == 1 && lis.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
+                    nowyX = lis.x;
+                    nowyY = lis.y + 1;
+                } else if (kierunek == 2 && lis.x < Mapa.size() - 1) { // Poruszanie się w dół
+                    nowyX = lis.x + 1;
+                    nowyY = lis.y;
+                } else if (kierunek == 3 && lis.y > 0) { // Poruszanie się w lewo
+                    nowyX = lis.x;
+                    nowyY = lis.y - 1;
+                }
+
+                // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
+                if (Mapa.get(nowyX).get(nowyY).equals("X")) {
+                    // Usunięcie lisów z poprzednich współrzędnych
+                    Mapa.get(lis.x).set(lis.y, "X");
+
+                    // Aktualizacja współrzędnych lisów
+                    lis.x = nowyX;
+                    lis.y = nowyY;
+
+                    // Umieszczenie lisów na nowych współrzędnych
+                    Mapa.get(lis.x).set(lis.y, lis.symbol);
+
+                    znalezionoWolneMiejsce = true;
+                } else {
+                    znalezionoWolneMiejsce = true;
+                }
+            }
+            lis.listaLisow = listaLisow;
+            lis.listaRoślinożerców = listaSaren;
+            lis.listaWszystkożerców = listaJeży;
+            lis.Mapa = Mapa;
+            lis.atakujZwierzęta();
+        }
+
+        for (Wszystkożerca jez : listaJeży) {
+            int nowyX = jez.x;
+            int nowyY = jez.y;
+            boolean znalezionoWolneMiejsce = false;
+            if (jez.czyZabity()) {
+                break;
+            }
+            while (!znalezionoWolneMiejsce) {
+                int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
+
+                if (kierunek == 0 && jez.x > 0) { // Poruszanie się w górę
+                    nowyX = jez.x - 1;
+                    nowyY = jez.y;
+                } else if (kierunek == 1 && jez.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
+                    nowyX = jez.x;
+                    nowyY = jez.y + 1;
+                } else if (kierunek == 2 && jez.x < Mapa.size() - 1) { // Poruszanie się w dół
+                    nowyX = jez.x + 1;
+                    nowyY = jez.y;
+                } else if (kierunek == 3 && jez.y > 0) { // Poruszanie się w lewo
+                    nowyX = jez.x;
+                    nowyY = jez.y - 1;
+                }
+
+                // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
+                if (Mapa.get(nowyX).get(nowyY).equals("X")) {
+                    // Usunięcie lisów z poprzednich współrzędnych
+                    Mapa.get(jez.x).set(jez.y, "X");
+
+                    // Aktualizacja współrzędnych lisów
+                    jez.x = nowyX;
+                    jez.y = nowyY;
+
+                    // Umieszczenie lisów na nowych współrzędnych
+                    Mapa.get(jez.x).set(jez.y, jez.symbol);
+
+                    znalezionoWolneMiejsce = true;
+                } else {
+                    znalezionoWolneMiejsce = true;
+                }
+            }
+        }
+
+
+        for (Roślinożerca sarna : listaSaren) {
+            int nowyX = sarna.x;
+            int nowyY = sarna.y;
+            boolean znalezionoWolneMiejsce = false;
+
+            while (!znalezionoWolneMiejsce) {
+                int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
+
+                if (kierunek == 0 && sarna.x > 0) { // Poruszanie się w górę
+                    nowyX = sarna.x - 1;
+                    nowyY = sarna.y;
+                } else if (kierunek == 1 && sarna.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
+                    nowyX = sarna.x;
+                    nowyY = sarna.y + 1;
+                } else if (kierunek == 2 && sarna.x < Mapa.size() - 1) { // Poruszanie się w dół
+                    nowyX = sarna.x + 1;
+                    nowyY = sarna.y;
+                } else if (kierunek == 3 && sarna.y > 0) { // Poruszanie się w lewo
+                    nowyX = sarna.x;
+                    nowyY = sarna.y - 1;
+                }
+
+                // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
+                if (Mapa.get(nowyX).get(nowyY).equals("X")) {
+                    // Usunięcie lisów z poprzednich współrzędnych
+                    Mapa.get(sarna.x).set(sarna.y, "X");
+
+                    // Aktualizacja współrzędnych lisów
+                    sarna.x = nowyX;
+                    sarna.y = nowyY;
+
+                    // Umieszczenie lisów na nowych współrzędnych
+                    Mapa.get(sarna.x).set(sarna.y, sarna.symbol);
+
+                    znalezionoWolneMiejsce = true;
+                } else {
+                    znalezionoWolneMiejsce = true;
+                }
+            }
+        }
+
+        if (iloscEtapow % 5 == 0) {
+            List<Jadalna> noweGrzybki = new ArrayList<>();
+
+            for (Jadalna grzyb : listaGrzybków) {
+                int nowyX = grzyb.x;
+                int nowyY = grzyb.y;
+
+                boolean validMove = false;
+
+                while (!validMove) {
+                    int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
+
+                    Jadalna grzybek = new Jadalna();
+                    grzybek.symbol = "G"; // Ustaw symbol nowego grzyba
+
+                    if (kierunek == 0 && grzyb.x > 0) { // Poruszanie się w górę
+                        nowyX = grzyb.x - 1;
+                        nowyY = grzyb.y;
+                    } else if (kierunek == 1 && grzyb.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
+                        nowyX = grzyb.x;
+                        nowyY = grzyb.y + 1;
+                    } else if (kierunek == 2 && grzyb.x < Mapa.size() - 1) { // Poruszanie się w dół
+                        nowyX = grzyb.x + 1;
+                        nowyY = grzyb.y;
+                    } else if (kierunek == 3 && grzyb.y > 0) { // Poruszanie się w lewo
+                        nowyX = grzyb.x;
+                        nowyY = grzyb.y - 1;
+                    }
+
+                    // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
+                    if (Mapa.get(nowyX).get(nowyY).equals("X")) {
+                        grzybek.x = nowyX;
+                        grzybek.y = nowyY;
+                        Mapa.get(nowyX).set(nowyY, grzybek.symbol);
+
+                        noweGrzybki.add(grzybek);
+                        validMove = true;
+                    } else {
+                        validMove = true; // Nie twórz nowego grzyba, jeśli nie ma miejsca
+                    }
+                }
+            }
+
+            listaGrzybków.addAll(noweGrzybki);
+        }
+
+        if (iloscEtapow % 5 == 0) {
+            List<Trująca> noweMuchomory = new ArrayList<>();
+
+            for (Trująca muchomor : listaMuchomorow) {
+                int nowyX = muchomor.x;
+                int nowyY = muchomor.y;
+
+                boolean validMove = false;
+
+                while (!validMove) {
+                    int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
+
+                    Trująca muchomorek = new Trująca();
+                    muchomorek.symbol = "M"; // Ustaw symbol nowego grzyba
+
+                    if (kierunek == 0 && muchomor.x > 0) { // Poruszanie się w górę
+                        nowyX = muchomor.x - 1;
+                        nowyY = muchomor.y;
+                    } else if (kierunek == 1 && muchomor.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
+                        nowyX = muchomor.x;
+                        nowyY = muchomor.y + 1;
+                    } else if (kierunek == 2 && muchomor.x < Mapa.size() - 1) { // Poruszanie się w dół
+                        nowyX = muchomor.x + 1;
+                        nowyY = muchomor.y;
+                    } else if (kierunek == 3 && muchomor.y > 0) { // Poruszanie się w lewo
+                        nowyX = muchomor.x;
+                        nowyY = muchomor.y - 1;
+                    }
+
+                    // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
+                    if (Mapa.get(nowyX).get(nowyY).equals("X")) {
+                        muchomorek.x = nowyX;
+                        muchomorek.y = nowyY;
+                        Mapa.get(nowyX).set(nowyY, muchomorek.symbol);
+
+                        noweMuchomory.add(muchomorek);
+                        validMove = true;
+                    } else {
+                        validMove = true; // Nie twórz nowego grzyba, jeśli nie ma miejsca
+                    }
+                }
+            }
+
+            listaMuchomorow.addAll(noweMuchomory);
+        }
+
+
+        // Aktualizacja wyświetlanej mapy po poruszeniu się lisów
+        mapka.getChildren().clear();
+        for (List<String> row : Mapa) {
+            StringBuilder sb = new StringBuilder();
+            for (String element : row) {
+                Text text = new Text(element + " ");
+                if (element.equals("X")) {
+                    text.setFill(Color.GREEN); // Set text color to green for "X"
+                } else if (element.equals("G")) {
+                    text.setFill(Color.DEEPSKYBLUE);
+                } else if (element.equals("O")) {
+                    text.setFill(Color.DARKRED);
+                } else if (element.equals("L")) {
+                    text.setFill(Color.ORANGE);
+                } else if (element.equals("S")) {
+                    text.setFill(Color.BROWN);
+                } else if (element.equals("J")) {
+                    text.setFill(Color.DARKBLUE);
+                }
+                mapka.getChildren().add(text);
+            }
+            Text newline = new Text("\n");
+            mapka.getChildren().add(newline);
+        }
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
