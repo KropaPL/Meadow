@@ -18,9 +18,9 @@
         </AnchorPane>
         <AnchorPane layoutX="400.0" prefHeight="400.0" prefWidth="200.0">
             <children>
-                <Text layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Mięsożercy" wrappingWidth="200.0" />
-                <Text layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Roślinożercy" wrappingWidth="200.0" />
-                <Text layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Wszystkożercy" wrappingWidth="200.0" />
+                <Text layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Lisy" wrappingWidth="200.0" />
+                <Text layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Sarny" wrappingWidth="200.0" />
+                <Text layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Jeże" wrappingWidth="200.0" />
                 <Text layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Roślinność:" wrappingWidth="200.0">
                     <font>
                         <Font name="System Bold" size="12.0" />
@@ -31,8 +31,8 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Text>
-                <Text layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Jadalne" wrappingWidth="200.0" />
-                <Text layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Trujące" wrappingWidth="200.0" />
+                <Text layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Grzyby" wrappingWidth="200.0" />
+                <Text layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-&gt;Muchomory" wrappingWidth="200.0" />
                 <Button fx:id="dalej" layoutX="158.0" layoutY="353.0" mnemonicParsing="false" onAction="#dalej" text="⇒" />
                 <Button fx:id="zapisz" layoutX="100.0" layoutY="353.0" mnemonicParsing="false" onAction="#zapisz" text="Zapisz" />
                 <Text fx:id="mapa1" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mapa:" wrappingWidth="200.0" />

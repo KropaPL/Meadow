@@ -46,6 +46,11 @@ public class HelloController implements Initializable {
             komunikat.setFill(Color.RED); // Set text color to red
             mapka.getChildren().clear();
             mapka.getChildren().add(komunikat);
+        } else if (Integer.parseInt(xwprowadzone.getText()) > 15 || Integer.parseInt(ywprowadzone.getText()) > 19) {
+            Text komunikat = new Text("BŁĄD!!!\nZA DUŻE WYMIARY MAPY! \nX_MAX = 15 Y_MAX = 19");
+            komunikat.setFill(Color.RED); // Set text color to red
+            mapka.getChildren().clear();
+            mapka.getChildren().add(komunikat);
         } else {
             int x = Integer.parseInt(xwprowadzone.getText());
             int y = Integer.parseInt(ywprowadzone.getText());
