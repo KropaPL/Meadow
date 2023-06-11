@@ -8,11 +8,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.io.File;
+import java.io.FileWriter;
+
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class HelloController implements Initializable {
     int wymiarx, wymiary;
@@ -29,7 +35,7 @@ public class HelloController implements Initializable {
     @FXML
     private TextField xwprowadzone, ywprowadzone, iloscJadalne, iloscTrujace, iloscWszystkozercy, iloscMiesozercy, iloscRoslinozercy;
     @FXML
-    private Button generuj, dalej;
+    private Button generuj, dalej, zapisz;
     @FXML
     private Text iksy, igreki, mapa1, populacjaMiesozercow, populacjaRoslinozercow, populacjaWszystkozercow, wystepowanieJadalne, wystepowanieTrujace, etap, liczba;
 
@@ -64,6 +70,7 @@ public class HelloController implements Initializable {
                     Jadalna grzyb = new Jadalna();
                     listaGrzybków.add(grzyb);
                 }
+
                 for (int i = 0; i < iloscMuchomorow; i++) {
                     Trująca muchomor = new Trująca();
                     listaMuchomorow.add(muchomor);
@@ -90,6 +97,7 @@ public class HelloController implements Initializable {
                 mapa1.setVisible(!mapa1.isVisible());
                 etap.setVisible(!etap.isVisible());
                 dalej.setVisible(!dalej.isVisible());
+                zapisz.setVisible(!zapisz.isVisible());
                 iloscJadalne.setVisible(!iloscJadalne.isVisible());
                 iloscTrujace.setVisible(!iloscTrujace.isVisible());
                 iloscMiesozercy.setVisible(!iloscMiesozercy.isVisible());
@@ -262,230 +270,97 @@ public class HelloController implements Initializable {
         liczba.setText(String.valueOf(iloscEtapow));
 
         for (Mięsożerca lis : listaLisow) {
-            int nowyX = lis.x;
-            int nowyY = lis.y;
-            boolean znalezionoWolneMiejsce = false;
-
-            while (!znalezionoWolneMiejsce) {
-                int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
-
-                if (kierunek == 0 && lis.x > 0) { // Poruszanie się w górę
-                    nowyX = lis.x - 1;
-                    nowyY = lis.y;
-                } else if (kierunek == 1 && lis.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
-                    nowyX = lis.x;
-                    nowyY = lis.y + 1;
-                } else if (kierunek == 2 && lis.x < Mapa.size() - 1) { // Poruszanie się w dół
-                    nowyX = lis.x + 1;
-                    nowyY = lis.y;
-                } else if (kierunek == 3 && lis.y > 0) { // Poruszanie się w lewo
-                    nowyX = lis.x;
-                    nowyY = lis.y - 1;
-                }
-
-                // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
-                if (Mapa.get(nowyX).get(nowyY).equals("X")) {
-                    // Usunięcie lisów z poprzednich współrzędnych
-                    Mapa.get(lis.x).set(lis.y, "X");
-
-                    // Aktualizacja współrzędnych lisów
-                    lis.x = nowyX;
-                    lis.y = nowyY;
-
-                    // Umieszczenie lisów na nowych współrzędnych
-                    Mapa.get(lis.x).set(lis.y, lis.symbol);
-
-                    znalezionoWolneMiejsce = true;
-                } else {
-                    znalezionoWolneMiejsce = true;
-                }
-            }
             lis.listaLisow = listaLisow;
             lis.listaRoślinożerców = listaSaren;
             lis.listaWszystkożerców = listaJeży;
             lis.Mapa = Mapa;
+            lis.poruszajSie();
             lis.atakujZwierzęta();
         }
 
         for (Wszystkożerca jez : listaJeży) {
-            int nowyX = jez.x;
-            int nowyY = jez.y;
-            boolean znalezionoWolneMiejsce = false;
-            if (jez.czyZabity()) {
-                break;
-            }
-            while (!znalezionoWolneMiejsce) {
-                int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
+            jez.listaLisow = listaLisow;
+            jez.listaRoślinożerców = listaSaren;
+            jez.listaWszystkożerców = listaJeży;
+            jez.listaJadalnych = listaGrzybków;
+            jez.listaTrujących = listaMuchomorow;
+            jez.Mapa = Mapa;
+            listaGrzybków = jez.getlistaJadalnych();
+            listaMuchomorow = jez.getListaTrujących();
+            jez.poruszajSie();
+            jez.atakujZwierzęta();
+            jez.szukajrosliny();
+        }
 
-                if (kierunek == 0 && jez.x > 0) { // Poruszanie się w górę
-                    nowyX = jez.x - 1;
-                    nowyY = jez.y;
-                } else if (kierunek == 1 && jez.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
-                    nowyX = jez.x;
-                    nowyY = jez.y + 1;
-                } else if (kierunek == 2 && jez.x < Mapa.size() - 1) { // Poruszanie się w dół
-                    nowyX = jez.x + 1;
-                    nowyY = jez.y;
-                } else if (kierunek == 3 && jez.y > 0) { // Poruszanie się w lewo
-                    nowyX = jez.x;
-                    nowyY = jez.y - 1;
-                }
 
-                // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
-                if (Mapa.get(nowyX).get(nowyY).equals("X")) {
-                    // Usunięcie lisów z poprzednich współrzędnych
-                    Mapa.get(jez.x).set(jez.y, "X");
+        Iterator<Wszystkożerca> iterato = listaJeży.iterator();
+        while (iterato.hasNext()) {
+            Wszystkożerca jez = iterato.next();
 
-                    // Aktualizacja współrzędnych lisów
-                    jez.x = nowyX;
-                    jez.y = nowyY;
-
-                    // Umieszczenie lisów na nowych współrzędnych
-                    Mapa.get(jez.x).set(jez.y, jez.symbol);
-
-                    znalezionoWolneMiejsce = true;
-                } else {
-                    znalezionoWolneMiejsce = true;
-                }
+            // Condition to remove the deer from the list
+            if (jez.życie <= 0) {
+                Mapa.get(jez.x).set(jez.y, "X");
+                iterato.remove(); // Remove the current element from the list
             }
         }
 
 
         for (Roślinożerca sarna : listaSaren) {
-            int nowyX = sarna.x;
-            int nowyY = sarna.y;
-            boolean znalezionoWolneMiejsce = false;
+            sarna.listaJadalnych = listaGrzybków;
+            sarna.listaRoślinożerców = listaSaren;
+            sarna.listaTrujących = listaMuchomorow;
+            sarna.Mapa = Mapa;
+            sarna.poruszajSie();
+            sarna.szukajrosliny();
+            listaGrzybków = sarna.getlistaJadalnych();
+            listaMuchomorow = sarna.getListaTrujących();
+        }
 
-            while (!znalezionoWolneMiejsce) {
-                int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
 
-                if (kierunek == 0 && sarna.x > 0) { // Poruszanie się w górę
-                    nowyX = sarna.x - 1;
-                    nowyY = sarna.y;
-                } else if (kierunek == 1 && sarna.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
-                    nowyX = sarna.x;
-                    nowyY = sarna.y + 1;
-                } else if (kierunek == 2 && sarna.x < Mapa.size() - 1) { // Poruszanie się w dół
-                    nowyX = sarna.x + 1;
-                    nowyY = sarna.y;
-                } else if (kierunek == 3 && sarna.y > 0) { // Poruszanie się w lewo
-                    nowyX = sarna.x;
-                    nowyY = sarna.y - 1;
-                }
+        Iterator<Roślinożerca> iterator = listaSaren.iterator();
+        while (iterator.hasNext()) {
+            Roślinożerca sarna = iterator.next();
 
-                // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
-                if (Mapa.get(nowyX).get(nowyY).equals("X")) {
-                    // Usunięcie lisów z poprzednich współrzędnych
-                    Mapa.get(sarna.x).set(sarna.y, "X");
-
-                    // Aktualizacja współrzędnych lisów
-                    sarna.x = nowyX;
-                    sarna.y = nowyY;
-
-                    // Umieszczenie lisów na nowych współrzędnych
-                    Mapa.get(sarna.x).set(sarna.y, sarna.symbol);
-
-                    znalezionoWolneMiejsce = true;
-                } else {
-                    znalezionoWolneMiejsce = true;
-                }
+            // Condition to remove the deer from the list
+            if (sarna.życie <= 0) {
+                Mapa.get(sarna.x).set(sarna.y, "X");
+                iterator.remove(); // Remove the current element from the list
             }
         }
 
-        if (iloscEtapow % 5 == 0) {
+
+        if (iloscEtapow % 8 == 0) {
             List<Jadalna> noweGrzybki = new ArrayList<>();
 
-            for (Jadalna grzyb : listaGrzybków) {
-                int nowyX = grzyb.x;
-                int nowyY = grzyb.y;
-
-                boolean validMove = false;
-
-                while (!validMove) {
-                    int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
-
-                    Jadalna grzybek = new Jadalna();
-                    grzybek.symbol = "G"; // Ustaw symbol nowego grzyba
-
-                    if (kierunek == 0 && grzyb.x > 0) { // Poruszanie się w górę
-                        nowyX = grzyb.x - 1;
-                        nowyY = grzyb.y;
-                    } else if (kierunek == 1 && grzyb.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
-                        nowyX = grzyb.x;
-                        nowyY = grzyb.y + 1;
-                    } else if (kierunek == 2 && grzyb.x < Mapa.size() - 1) { // Poruszanie się w dół
-                        nowyX = grzyb.x + 1;
-                        nowyY = grzyb.y;
-                    } else if (kierunek == 3 && grzyb.y > 0) { // Poruszanie się w lewo
-                        nowyX = grzyb.x;
-                        nowyY = grzyb.y - 1;
-                    }
-
-                    // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
-                    if (Mapa.get(nowyX).get(nowyY).equals("X")) {
-                        grzybek.x = nowyX;
-                        grzybek.y = nowyY;
-                        Mapa.get(nowyX).set(nowyY, grzybek.symbol);
-
-                        noweGrzybki.add(grzybek);
-                        validMove = true;
-                    } else {
-                        validMove = true; // Nie twórz nowego grzyba, jeśli nie ma miejsca
-                    }
-                }
+            for (Iterator<Jadalna> iteratoro = listaGrzybków.iterator(); iteratoro.hasNext();) {
+                Jadalna grzyb = iteratoro.next();
+                grzyb.Mapa = Mapa;
+                grzyb.setListaGrzybow(listaGrzybków);
+                List<Jadalna> wygenerowaneGrzybki = Jadalna.generujNoweGrzybki(Mapa);
+                noweGrzybki.addAll(wygenerowaneGrzybki);
             }
 
             listaGrzybków.addAll(noweGrzybki);
         }
 
-        if (iloscEtapow % 5 == 0) {
+
+
+        if (iloscEtapow % 8 == 0) {
             List<Trująca> noweMuchomory = new ArrayList<>();
 
-            for (Trująca muchomor : listaMuchomorow) {
-                int nowyX = muchomor.x;
-                int nowyY = muchomor.y;
-
-                boolean validMove = false;
-
-                while (!validMove) {
-                    int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
-
-                    Trująca muchomorek = new Trująca();
-                    muchomorek.symbol = "M"; // Ustaw symbol nowego grzyba
-
-                    if (kierunek == 0 && muchomor.x > 0) { // Poruszanie się w górę
-                        nowyX = muchomor.x - 1;
-                        nowyY = muchomor.y;
-                    } else if (kierunek == 1 && muchomor.y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
-                        nowyX = muchomor.x;
-                        nowyY = muchomor.y + 1;
-                    } else if (kierunek == 2 && muchomor.x < Mapa.size() - 1) { // Poruszanie się w dół
-                        nowyX = muchomor.x + 1;
-                        nowyY = muchomor.y;
-                    } else if (kierunek == 3 && muchomor.y > 0) { // Poruszanie się w lewo
-                        nowyX = muchomor.x;
-                        nowyY = muchomor.y - 1;
-                    }
-
-                    // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
-                    if (Mapa.get(nowyX).get(nowyY).equals("X")) {
-                        muchomorek.x = nowyX;
-                        muchomorek.y = nowyY;
-                        Mapa.get(nowyX).set(nowyY, muchomorek.symbol);
-
-                        noweMuchomory.add(muchomorek);
-                        validMove = true;
-                    } else {
-                        validMove = true; // Nie twórz nowego grzyba, jeśli nie ma miejsca
-                    }
-                }
+            for (Iterator<Trująca> iteratory = listaMuchomorow.iterator(); iteratory.hasNext();) {
+                Trująca muchomor = iteratory.next();
+                muchomor.Mapa = Mapa;
+                muchomor.setListaMuchomorkow(listaMuchomorow);
+                List<Trująca> wygenerowaneMuchomory = Trująca.generujNoweMuchomory(Mapa);
+                noweMuchomory.addAll(wygenerowaneMuchomory);
             }
 
             listaMuchomorow.addAll(noweMuchomory);
         }
 
 
-        // Aktualizacja wyświetlanej mapy po poruszeniu się lisów
+        // Aktualizacja wyświetlanej mapy po poruszeniu się obiektów
         mapka.getChildren().clear();
         for (List<String> row : Mapa) {
             StringBuilder sb = new StringBuilder();
@@ -511,6 +386,77 @@ public class HelloController implements Initializable {
         }
     }
 
+    @FXML
+    private void zapisz() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz ścieżkę do zapisu pliku CSV");
+
+        // Dodajemy filtr dla plików CSV
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Pliki CSV", "*.csv");
+        fileChooser.getExtensionFilters().add(filter);
+
+        File file = fileChooser.showSaveDialog(null);
+
+        if (file != null) {
+            // Użytkownik wybrał plik
+            String filePath = file.getAbsolutePath();
+
+            try (FileWriter fileWriter = new FileWriter(filePath);
+                 CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT)) {
+
+                // Nagłówki kolumn w pliku CSV
+                csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Pokarm");
+
+                if (!listaSaren.isEmpty()){
+                    // Zapisujesz informacje o obiektach w pliku CSV
+                    for (Roślinożerca sarna : listaSaren) {
+                        csvPrinter.printRecord(sarna.nazwa, sarna.symbol, sarna.życie, sarna.spożytyPokarm);
+                    }}
+
+                if (!listaLisow.isEmpty()){
+                    // Nagłówki kolumn w pliku CSV
+                    csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Ofiary");
+                    for (Mięsożerca lis : listaLisow) {
+                        csvPrinter.printRecord(lis.nazwa, lis.symbol, lis.życie, lis.ofiary);
+                    }}
+
+                if (!listaJeży.isEmpty()){
+                    // Nagłówki kolumn w pliku CSV
+                    csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Ofiary", "Pokarm");
+                    for (Wszystkożerca jez : listaJeży) {
+                        csvPrinter.printRecord(jez.nazwa, jez.symbol, jez.życie, jez.ofiary, jez.spożytyPokarm);
+                    }}
+
+                if (!listaGrzybków.isEmpty()){
+                    // Nagłówki kolumn w pliku CSV
+                    csvPrinter.printRecord("Nazwa", "Symbol");
+                    for (Jadalna jadalna : listaGrzybków) {
+                        csvPrinter.printRecord(jadalna.nazwa, jadalna.symbol);
+                    }}
+
+                if (!listaMuchomorow.isEmpty()){
+                    // Nagłówki kolumn w pliku CSV
+                    csvPrinter.printRecord("Nazwa", "Symbol");
+                    for (Trująca trująca : listaMuchomorow) {
+                        csvPrinter.printRecord(trująca.nazwa, trująca.symbol);
+                    }}
+
+                // Pusty wiersz oddzielający
+                csvPrinter.println();
+                csvPrinter.printRecord("STAN MAPY PO ZAPISIE");
+
+
+                // Mapa
+                for (List<String> wiersz : Mapa) {
+                    csvPrinter.printRecord(wiersz);
+                }
+
+                csvPrinter.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -518,5 +464,6 @@ public class HelloController implements Initializable {
         mapka.getChildren().add(t1);
         etap.setVisible(false);
         dalej.setVisible(false);
+        zapisz.setVisible(false);
     }
 }

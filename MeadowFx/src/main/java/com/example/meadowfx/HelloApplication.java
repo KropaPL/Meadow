@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Meadow");
-        Image icon = new Image("C:\\Users\\natal\\Desktop\\Programowanie\\MeadowFx\\src\\main\\resources\\com\\example\\meadowfx\\ikona.jpg");
+        Image icon = new Image(getClass().getResourceAsStream("/com/example/meadowfx/Images/ikona.jpg"));
         stage.getIcons().add(icon);
         stage.setHeight(430);
         stage.setWidth(620);

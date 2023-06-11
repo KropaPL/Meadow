@@ -1,11 +1,12 @@
 package com.example.meadowfx;
 
-import java.time.chrono.MinguoEra;
 import java.util.List;
+import java.util.Random;
 
 public class Mięsożerca extends Zwierzę {
     int obrazenia;
-    int ofiary;
+    int ofiary = 0;
+    private boolean zabity;
 
     public List<Mięsożerca> listaLisow;
     public List<Roślinożerca> listaRoślinożerców;
@@ -15,10 +16,10 @@ public class Mięsożerca extends Zwierzę {
 
     public Mięsożerca() {
         this.symbol = "L";
-        this.obrazenia = 100;
-        this.glod = 0;
+        this.obrazenia = 50;
         this.życie = 100;
         this.nazwa = "Lis";
+        this.zabity = false;
 
     }
 
@@ -26,6 +27,48 @@ public class Mięsożerca extends Zwierzę {
     public void akcja() {
 
     }
+    public void poruszajSie() {
+        int nowyX = x;
+        int nowyY = y;
+        boolean znalezionoWolneMiejsce = false;
+
+        while (!znalezionoWolneMiejsce) {
+            Random generator = new Random();
+            int kierunek = generator.nextInt(4); // 0 - góra, 1 - prawo, 2 - dół, 3 - lewo
+
+            if (kierunek == 0 && x > 0) { // Poruszanie się w górę
+                nowyX = x - 1;
+                nowyY = y;
+            } else if (kierunek == 1 && y < Mapa.get(0).size() - 1) { // Poruszanie się w prawo
+                nowyX = x;
+                nowyY = y + 1;
+            } else if (kierunek == 2 && x < Mapa.size() - 1) { // Poruszanie się w dół
+                nowyX = x + 1;
+                nowyY = y;
+            } else if (kierunek == 3 && y > 0) { // Poruszanie się w lewo
+                nowyX = x;
+                nowyY = y - 1;
+            }
+
+            // Sprawdzenie, czy nowe współrzędne są już zajęte przez inny obiekt
+            if (Mapa.get(nowyX).get(nowyY).equals("X")) {
+                // Usunięcie lisów z poprzednich współrzędnych
+                Mapa.get(x).set(y, "X");
+
+                // Aktualizacja współrzędnych lisów
+                x = nowyX;
+                y = nowyY;
+
+                // Umieszczenie lisów na nowych współrzędnych
+                Mapa.get(x).set(y, symbol);
+
+                znalezionoWolneMiejsce = true;
+            } else {
+                znalezionoWolneMiejsce = true;
+            }
+        }
+    }
+
 
     public void zadajObrazenia(Zwierzę zwierzę, int obrazenia) {
         if (zwierzę instanceof Roślinożerca) {
@@ -35,6 +78,7 @@ public class Mięsożerca extends Zwierzę {
             if (roślinożerca.życie <= 0) {
                 Mapa.get(roślinożerca.x).set(roślinożerca.y, "X");
                 listaRoślinożerców.remove(roślinożerca);
+                ofiary++;
             }
         } else if (zwierzę instanceof Wszystkożerca) {
             Wszystkożerca wszystkożerca = (Wszystkożerca) zwierzę;
@@ -43,6 +87,7 @@ public class Mięsożerca extends Zwierzę {
             if (wszystkożerca.życie <= 0) {
                 Mapa.get(wszystkożerca.x).set(wszystkożerca.y, "X");
                 listaWszystkożerców.remove(wszystkożerca);
+                ofiary++;
             }
         }
     }
@@ -99,6 +144,14 @@ public class Mięsożerca extends Zwierzę {
             }
         }
         return null;
+    }
+
+    public boolean czyZabity() {
+        return zabity;
+    }
+
+    public void zabiJ() {
+        this.zabity = true;
     }
 
 
