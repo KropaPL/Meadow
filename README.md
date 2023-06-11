@@ -28,10 +28,7 @@ Program służy do symulowania życia zwierząt na łące oraz występującej na
 6.1. zawiera takie dodatkowe pole jak ilość zregenerowanych punktów zdrowia po spożyciu(Regeneracja).<br />
 <br />
 Wygląd po aplikacji po włączeniu, możliwość zadania różnych parametrów początkowych:
-<br />
-![Meadowekran](https://github.com/KropaPL/Meadow/assets/122940169/8c25fed9-0679-4b0a-b200-747921e9aabe)
-<br />
+![Screenshot](Meadowekran.png)
 Wygląd wygenerowanej mapy z obiektami losowo na niej umieszonej:
-<br />
-![Meadowmapa](https://github.com/KropaPL/Meadow/assets/122940169/20bacb03-688f-40f7-90fc-bc7929219502)
-<br />
+![Screenshot](Meadowmapa.png)
+
