@@ -27,8 +27,8 @@ Program służy do symulowania życia zwierząt na łące oraz występującej na
 6. Klasa „Jadalna” – klasa ta dziedziczy po klasie „Roślinność”,<br />
 6.1. zawiera takie dodatkowe pole jak ilość zregenerowanych punktów zdrowia po spożyciu(Regeneracja).<br />
 <br />
-Wygląd po aplikacji po włączeniu, możliwość zadania różnych parametrów początkowych:
-![Screenshot](Meadowekran.png)
-Wygląd wygenerowanej mapy z obiektami losowo na niej umieszonej:
-![Screenshot](Meadowmapa.png)
+Wygląd po aplikacji po włączeniu, możliwość zadania różnych parametrów początkowych:<br />
+![Screenshot](Meadowekran.png)<br />
+Wygląd wygenerowanej mapy z obiektami losowo na niej umieszonej:<br />
+![Screenshot](Meadowmapa.png)<br />
 
