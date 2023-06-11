@@ -29,9 +29,9 @@ Program służy do symulowania życia zwierząt na łące oraz występującej na
 <br />
 Wygląd po aplikacji po włączeniu, możliwość zadania różnych parametrów początkowych:
 <br />
-![alt text](https://github.com/KropaPL/Meadow/blob/main/Meadowekran.png?raw=true)
+![Screenshot](Meadowekran.png)
 <br />
 Wygląd wygenerowanej mapy z obiektami losowo na niej umieszonej:
 <br />
-![alt text](https://github.com/KropaPL/Meadow/blob/main/Meadowmapa.png?raw=true)
+![Screenshot](Meadowmapa.png)
 <br />
