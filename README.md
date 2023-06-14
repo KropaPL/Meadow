@@ -13,19 +13,30 @@ Program służy do symulowania życia zwierząt na łące oraz występującej na
 2. Klasa „Mięsożerca” – klasa ta dziedziczy po klasie „Zwierzę”<br />
 2.1.  zawiera takie dodatkowe pole jak ilość zadawanych obrażeń (obrażenia).<br />
 2.2. Ilość ofiar (ofiary)<br />
+2.3. Głód (Głód);<br />
 <br />
 3. Klasa „Roślinożerca” – klasa ta dziedziczy po klasie „Zwierzę”, <br />
 3.1. zawiera takie dodatkowe pole jak ilość zjedzonego pokarmu (pokarm)<br />
+3.2. Głód (Głód);<br />
 <br />
-4. Klasa „Roślinność” – zawiera takie atrybuty jak:<br />
-4.2. nazwę rośliny (nazwa)<br />
-4.3. symbol, który reprezentuje na planszy (symbol),<br />
+4. Klasa „Wszystkożerca” – klasa ta dziedziczy po klasie „Zwierzę”, <br />
+4.1. zawiera takie dodatkowe pole jak ilość zjedzonego pokarmu (pokarm)<br />
+4.2. Głód (Głód);<br />
+4.3. zawiera takie dodatkowe pole jak ilość zadawanych obrażeń (obrażenia).<br />
+4.4. Ilość ofiar (ofiary)<br />
+4.5. Głód (Głód);<br />
 <br />
-5. Klasa „Trująca” – klasa ta dziedziczy po klasie „Roślinność”,<br />
-5.1. zawiera takie dodatkowe pole jak ilość zadanych obrażeń z powodu trucizny (trucizna)<br />
+5. Klasa „Roślinność” – zawiera takie atrybuty jak:<br />
+5.1. nazwę rośliny (nazwa)<br />
+5.2. symbol, który reprezentuje na planszy (symbol),<br />
 <br />
-6. Klasa „Jadalna” – klasa ta dziedziczy po klasie „Roślinność”,<br />
-6.1. zawiera takie dodatkowe pole jak ilość zregenerowanych punktów zdrowia po spożyciu(Regeneracja).<br />
+6. Klasa „Trująca” – klasa ta dziedziczy po klasie „Roślinność”,<br />
+6.1. zawiera takie dodatkowe pole jak ilość zadanych obrażeń z powodu trucizny (trucizna)<br />
+6.2. sytość (sytość)<br />
+<br />
+7. Klasa „Jadalna” – klasa ta dziedziczy po klasie „Roślinność”,<br />
+7.1. zawiera takie dodatkowe pole jak ilość zregenerowanych punktów zdrowia po spożyciu(Regeneracja).<br />
+7.2. sytość (sytość)<br />
 <br />
 Wygląd po aplikacji po włączeniu, możliwość zadania różnych parametrów początkowych:<br /><br />
 
