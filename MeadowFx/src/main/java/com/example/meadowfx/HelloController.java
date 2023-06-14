@@ -289,7 +289,7 @@ public class HelloController implements Initializable {
             Mięsożerca lis = iteratorom.next();
 
             // Condition to remove the fox from the list
-            if (lis.glod >= 100) {
+            if (lis.glod >= 100 || lis.życie <= 0) {
                 Mapa.get(lis.x).set(lis.y, "X");
                 iteratorom.remove(); // Remove the current element from the list
             }
@@ -471,16 +471,16 @@ public class HelloController implements Initializable {
 
                 if (!listaGrzybków.isEmpty()){
                     // Nagłówki kolumn w pliku CSV
-                    csvPrinter.printRecord("Nazwa", "Symbol");
+                    csvPrinter.printRecord("Nazwa", "Symbol", "Wiek");
                     for (Jadalna jadalna : listaGrzybków) {
-                        csvPrinter.printRecord(jadalna.nazwa, jadalna.symbol);
+                        csvPrinter.printRecord(jadalna.nazwa, jadalna.symbol, jadalna.wiek);
                     }}
 
                 if (!listaMuchomorow.isEmpty()){
                     // Nagłówki kolumn w pliku CSV
-                    csvPrinter.printRecord("Nazwa", "Symbol");
+                    csvPrinter.printRecord("Nazwa", "Symbol", "Wiek");
                     for (Trująca trująca : listaMuchomorow) {
-                        csvPrinter.printRecord(trująca.nazwa, trująca.symbol);
+                        csvPrinter.printRecord(trująca.nazwa, trująca.symbol, trująca.wiek);
                     }}
 
                 // Pusty wiersz oddzielający

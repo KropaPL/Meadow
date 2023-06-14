@@ -185,6 +185,7 @@ public class Wszystkożerca extends Zwierzę {
                 Mapa.get(mięsożerca.x).set(mięsożerca.y, "X");
                 listaWszystkożerców.remove(mięsożerca);
                 ofiary++;
+                glod = 0;
             }
         }
     }

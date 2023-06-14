@@ -31,6 +31,6 @@ public class RoślinożercaTest {
         listaJadalnych.add(jadalna);
         roślinożerca.listaJadalnych = listaJadalnych;
         roślinożerca.życie += jadalna.regeneracja;
-        Assertions.assertEquals(150, roślinożerca.życie);
+        Assertions.assertEquals(280, roślinożerca.życie);
     }
 }

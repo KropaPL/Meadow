@@ -34,9 +34,7 @@ public class Jadalna extends Roślina {
     public void setListaGrzybow(List<Jadalna> listaGrzybka){
         this.listaGrzybków = listaGrzybka;
     }
-    public List<Jadalna> getListaGrzybow(){
-        return this.listaGrzybków;
-    }
+
 
     public static List<Jadalna> generujNoweGrzybki(List<List<String>> mapa) {
         List<Jadalna> noweGrzybki = new ArrayList<>();
