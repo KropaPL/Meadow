@@ -24,7 +24,6 @@ Program służy do symulowania życia zwierząt na łące oraz występującej na
 4.2. Głód (Głód);<br />
 4.3. zawiera takie dodatkowe pole jak ilość zadawanych obrażeń (obrażenia).<br />
 4.4. Ilość ofiar (ofiary)<br />
-4.5. Głód (Głód);<br />
 <br />
 5. Klasa „Roślinność” – zawiera takie atrybuty jak:<br />
 5.1. nazwę rośliny (nazwa)<br />
