@@ -6,6 +6,9 @@ import java.util.Random;
 
 public class Trująca extends Roślina {
     int trucizna;
+    int sytosc = 80;
+    int wiek;
+    int Maxwiek;
     public List<List<String>> Mapa;
     public static List<Trująca> listaMuchomorow;
 
@@ -14,8 +17,12 @@ public class Trująca extends Roślina {
         this.nazwa = "Muchomor";
         this.trucizna = -5;
         this.wzrost = 1;
+        this.Maxwiek = 6;
     }
 
+    public void zwiekszWiek(){
+        wiek+=1;
+    }
 
     public void setListaMuchomorkow(List<Trująca> listaMuchomora){
         this.listaMuchomorow = listaMuchomora;
@@ -66,12 +73,4 @@ public class Trująca extends Roślina {
         return noweMuchomory;
     }
 
-    @Override
-    public void akcja() {
-        super.akcja();
-    }
-
-    public void zatruj() {
-
-    }
 }

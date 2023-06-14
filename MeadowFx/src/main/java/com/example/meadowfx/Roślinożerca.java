@@ -7,6 +7,7 @@ import java.util.Random;
 public class Roślinożerca extends Zwierzę {
     int spożytyPokarm = 0;
     private boolean zabity;
+    int glod;
     public List<Roślinożerca> listaRoślinożerców;
     public List<Jadalna> listaJadalnych;
     public List<Trująca> listaTrujących;
@@ -15,25 +16,11 @@ public class Roślinożerca extends Zwierzę {
     public Roślinożerca() {
         this.symbol = "S";
         this.nazwa = "Sarna";
-        this.życie = 100;
+        this.życie = 200;
         this.zabity = false;
     }
-
-    @Override
-    public void akcja() {
-
-    }
-
-    public void unik() {
-
-    }
-
-    public boolean czyZabity() {
-        return zabity;
-    }
-
-    public void zabiJ() {
-        this.zabity = true;
+    public void wzmozGlod(){
+        glod+=3;
     }
 
 
@@ -87,6 +74,10 @@ public class Roślinożerca extends Zwierzę {
             listaJadalnych.remove(jadalna);
             Mapa.get(jadalna.x).set(jadalna.y, "X");
             spożytyPokarm++;
+            glod-=jadalna.sytosc;
+            if (glod < 0){
+                glod = 0;
+            }
         }
         if (roslina instanceof Trująca) {
             Trująca trująca = (Trująca) roslina;
@@ -94,6 +85,10 @@ public class Roślinożerca extends Zwierzę {
             listaTrujących.remove(trująca);
             Mapa.get(trująca.x).set(trująca.y, "X");
             spożytyPokarm++;
+            glod-=trująca.sytosc;
+            if (glod < 0){
+                glod = 0;
+            }
         }
     }
     public List<Jadalna> getlistaJadalnych(){

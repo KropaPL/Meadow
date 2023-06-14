@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class Mięsożerca extends Zwierzę {
     int obrazenia;
+    int glod = 0;
     int ofiary = 0;
     private boolean zabity;
 
@@ -14,6 +15,9 @@ public class Mięsożerca extends Zwierzę {
     public List<List<String>> Mapa;
 
 
+    public void wzmozGlod(){
+        glod+=3;
+    }
     public Mięsożerca() {
         this.symbol = "L";
         this.obrazenia = 50;
@@ -23,10 +27,6 @@ public class Mięsożerca extends Zwierzę {
 
     }
 
-    @Override
-    public void akcja() {
-
-    }
     public void poruszajSie() {
         int nowyX = x;
         int nowyY = y;
@@ -79,6 +79,7 @@ public class Mięsożerca extends Zwierzę {
                 Mapa.get(roślinożerca.x).set(roślinożerca.y, "X");
                 listaRoślinożerców.remove(roślinożerca);
                 ofiary++;
+                glod = 0;
             }
         } else if (zwierzę instanceof Wszystkożerca) {
             Wszystkożerca wszystkożerca = (Wszystkożerca) zwierzę;
@@ -88,6 +89,7 @@ public class Mięsożerca extends Zwierzę {
                 Mapa.get(wszystkożerca.x).set(wszystkożerca.y, "X");
                 listaWszystkożerców.remove(wszystkożerca);
                 ofiary++;
+                glod = 0;
             }
         }
     }

@@ -8,6 +8,7 @@ import java.util.Random;
 public class Wszystkożerca extends Zwierzę {
     int obrazenia;
     int ofiary;
+    int glod;
     int spożytyPokarm;
     private boolean zabity;
     public List<Mięsożerca> listaLisow;
@@ -24,12 +25,9 @@ public class Wszystkożerca extends Zwierzę {
         this.nazwa = "Jez";
         this.zabity = false;
     }
-
-    @Override
-    public void akcja() {
-
+    public void wzmozGlod(){
+        glod+=5;
     }
-
 
     public void poruszajSie() {
         int nowyX = x;
@@ -85,6 +83,10 @@ public class Wszystkożerca extends Zwierzę {
             listaJadalnych.remove(jadalna);
             Mapa.get(jadalna.x).set(jadalna.y, "X");
             spożytyPokarm++;
+            glod-=jadalna.sytosc;
+            if (glod < 0){
+                glod = 0;
+            }
         }
         if (roslina instanceof Trująca) {
             Trująca trująca = (Trująca) roslina;
@@ -92,6 +94,10 @@ public class Wszystkożerca extends Zwierzę {
             listaTrujących.remove(trująca);
             Mapa.get(trująca.x).set(trująca.y, "X");
             spożytyPokarm++;
+            glod-=trująca.sytosc;
+            if (glod < 0){
+                glod = 0;
+            }
         }
     }
     public List<Jadalna> getlistaJadalnych(){

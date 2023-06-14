@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileWriter;
 
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 
@@ -21,7 +20,6 @@ import java.net.URL;
 import java.util.*;
 
 public class HelloController implements Initializable {
-    int wymiarx, wymiary;
     int iloscEtapow = 0;
     Random generator = new Random();
     List<Jadalna> listaGrzybków = new ArrayList<>();
@@ -37,7 +35,7 @@ public class HelloController implements Initializable {
     @FXML
     private Button generuj, dalej, zapisz;
     @FXML
-    private Text iksy, igreki, mapa1, populacjaMiesozercow, populacjaRoslinozercow, populacjaWszystkozercow, wystepowanieJadalne, wystepowanieTrujace, etap, liczba;
+    private Text iksy, igreki, mapa1, populacjaMiesozercow, populacjaRoslinozercow, populacjaWszystkozercow, wystepowanieJadalne, wystepowanieTrujace, etap, liczba, poczatkowo, aktualnie, aktualneLisy, aktualneSarny, aktualneJeze, aktualneGrzyby, aktualneMuchomory;
 
     @FXML
     private void generujMape() {
@@ -108,6 +106,8 @@ public class HelloController implements Initializable {
                 iloscMiesozercy.setVisible(!iloscMiesozercy.isVisible());
                 iloscRoslinozercy.setVisible(!iloscRoslinozercy.isVisible());
                 iloscWszystkozercy.setVisible(!iloscWszystkozercy.isVisible());
+                poczatkowo.setVisible(!poczatkowo.isVisible());
+                aktualnie.setVisible(!aktualnie.isVisible());
 
                 wystepowanieJadalne.setText(String.valueOf(wyświetlanaIlośćGrzybów));
                 wystepowanieTrujace.setText(String.valueOf(wyświetlanaIlośćMuchomorów));
@@ -115,7 +115,7 @@ public class HelloController implements Initializable {
                 populacjaRoslinozercow.setText(String.valueOf(wyświetlanaIlośćSaren));
                 populacjaWszystkozercow.setText(String.valueOf(wyświetlanaIlośćJeży));
 
-
+                // Generowanie Mapy i umiejscowienie obiektów
                 for (int i = 0; i < y; i++) {
                     List<String> row = new ArrayList<>();
                     for (int j = 0; j < x; j++) {
@@ -281,6 +281,18 @@ public class HelloController implements Initializable {
             lis.Mapa = Mapa;
             lis.poruszajSie();
             lis.atakujZwierzęta();
+            lis.wzmozGlod();
+        }
+
+        Iterator<Mięsożerca> iteratorom = listaLisow.iterator();
+        while (iteratorom.hasNext()) {
+            Mięsożerca lis = iteratorom.next();
+
+            // Condition to remove the fox from the list
+            if (lis.glod >= 100) {
+                Mapa.get(lis.x).set(lis.y, "X");
+                iteratorom.remove(); // Remove the current element from the list
+            }
         }
 
         for (Wszystkożerca jez : listaJeży) {
@@ -295,6 +307,7 @@ public class HelloController implements Initializable {
             jez.poruszajSie();
             jez.atakujZwierzęta();
             jez.szukajrosliny();
+            jez.wzmozGlod();
         }
 
 
@@ -303,7 +316,7 @@ public class HelloController implements Initializable {
             Wszystkożerca jez = iterato.next();
 
             // Condition to remove the deer from the list
-            if (jez.życie <= 0) {
+            if (jez.życie <= 0 || jez.glod >= 130) {
                 Mapa.get(jez.x).set(jez.y, "X");
                 iterato.remove(); // Remove the current element from the list
             }
@@ -317,6 +330,7 @@ public class HelloController implements Initializable {
             sarna.Mapa = Mapa;
             sarna.poruszajSie();
             sarna.szukajrosliny();
+            sarna.wzmozGlod();
             listaGrzybków = sarna.getlistaJadalnych();
             listaMuchomorow = sarna.getListaTrujących();
         }
@@ -327,14 +341,21 @@ public class HelloController implements Initializable {
             Roślinożerca sarna = iterator.next();
 
             // Condition to remove the deer from the list
-            if (sarna.życie <= 0) {
+            if (sarna.życie <= 0 || sarna.glod >= 150) {
                 Mapa.get(sarna.x).set(sarna.y, "X");
                 iterator.remove(); // Remove the current element from the list
             }
         }
 
+        for (Jadalna grzyb : listaGrzybków){
+            grzyb.zwiekszWiek();
+        }
+        for (Trująca muchomor : listaMuchomorow){
+            muchomor.zwiekszWiek();
+        }
 
-        if (iloscEtapow % 8 == 0) {
+
+        if (iloscEtapow % 5 == 0) {
             List<Jadalna> noweGrzybki = new ArrayList<>();
 
             for (Iterator<Jadalna> iteratoro = listaGrzybków.iterator(); iteratoro.hasNext();) {
@@ -343,6 +364,11 @@ public class HelloController implements Initializable {
                 grzyb.setListaGrzybow(listaGrzybków);
                 List<Jadalna> wygenerowaneGrzybki = Jadalna.generujNoweGrzybki(Mapa);
                 noweGrzybki.addAll(wygenerowaneGrzybki);
+                // Condition to remove the mushroom from the list
+                if (grzyb.wiek == grzyb.Maxwiek) {
+                    Mapa.get(grzyb.x).set(grzyb.y, "X");
+                    iteratoro.remove(); // Remove the current element from the list
+                }
             }
 
             listaGrzybków.addAll(noweGrzybki);
@@ -350,7 +376,7 @@ public class HelloController implements Initializable {
 
 
 
-        if (iloscEtapow % 8 == 0) {
+        if (iloscEtapow % 5 == 0) {
             List<Trująca> noweMuchomory = new ArrayList<>();
 
             for (Iterator<Trująca> iteratory = listaMuchomorow.iterator(); iteratory.hasNext();) {
@@ -359,10 +385,21 @@ public class HelloController implements Initializable {
                 muchomor.setListaMuchomorkow(listaMuchomorow);
                 List<Trująca> wygenerowaneMuchomory = Trująca.generujNoweMuchomory(Mapa);
                 noweMuchomory.addAll(wygenerowaneMuchomory);
+                // Condition to remove the mushroom from the list
+                if (muchomor.wiek == muchomor.Maxwiek) {
+                    Mapa.get(muchomor.x).set(muchomor.y, "X");
+                    iteratory.remove(); // Remove the current element from the list
+                }
             }
 
             listaMuchomorow.addAll(noweMuchomory);
         }
+
+        aktualneGrzyby.setText(String.valueOf(listaGrzybków.size()));
+        aktualneMuchomory.setText(String.valueOf(listaMuchomorow.size()));
+        aktualneJeze.setText(String.valueOf(listaJeży.size()));
+        aktualneSarny.setText(String.valueOf(listaSaren.size()));
+        aktualneLisy.setText(String.valueOf(listaLisow.size()));
 
 
         // Aktualizacja wyświetlanej mapy po poruszeniu się obiektów
@@ -410,26 +447,26 @@ public class HelloController implements Initializable {
                  CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT)) {
 
                 // Nagłówki kolumn w pliku CSV
-                csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Pokarm");
+                csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Pokarm spozyty", "Glod");
 
                 if (!listaSaren.isEmpty()){
                     // Zapisujesz informacje o obiektach w pliku CSV
                     for (Roślinożerca sarna : listaSaren) {
-                        csvPrinter.printRecord(sarna.nazwa, sarna.symbol, sarna.życie, sarna.spożytyPokarm);
+                        csvPrinter.printRecord(sarna.nazwa, sarna.symbol, sarna.życie, sarna.spożytyPokarm, sarna.glod);
                     }}
 
                 if (!listaLisow.isEmpty()){
                     // Nagłówki kolumn w pliku CSV
-                    csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Ofiary");
+                    csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Ofiary", "Glod");
                     for (Mięsożerca lis : listaLisow) {
-                        csvPrinter.printRecord(lis.nazwa, lis.symbol, lis.życie, lis.ofiary);
+                        csvPrinter.printRecord(lis.nazwa, lis.symbol, lis.życie, lis.ofiary, lis.glod);
                     }}
 
                 if (!listaJeży.isEmpty()){
                     // Nagłówki kolumn w pliku CSV
-                    csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Ofiary", "Pokarm");
+                    csvPrinter.printRecord("Nazwa", "Symbol", "Zycie", "Ofiary", "Pokarm spozyty", "Glod");
                     for (Wszystkożerca jez : listaJeży) {
-                        csvPrinter.printRecord(jez.nazwa, jez.symbol, jez.życie, jez.ofiary, jez.spożytyPokarm);
+                        csvPrinter.printRecord(jez.nazwa, jez.symbol, jez.życie, jez.ofiary, jez.spożytyPokarm, jez.glod);
                     }}
 
                 if (!listaGrzybków.isEmpty()){
@@ -470,5 +507,7 @@ public class HelloController implements Initializable {
         etap.setVisible(false);
         dalej.setVisible(false);
         zapisz.setVisible(false);
+        poczatkowo.setVisible(false);
+        aktualnie.setVisible(false);
     }
 }

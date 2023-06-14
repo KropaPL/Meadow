@@ -7,24 +7,28 @@ import java.util.Random;
 public class Jadalna extends Roślina {
 
     int regeneracja;
+    int sytosc;
+    int wiek;
+    int Maxwiek;
     public List<List<String>> Mapa;
     public static List<Jadalna> listaGrzybków;
 
     public Jadalna() {
         this.symbol = "G";
         this.nazwa = "Grzyb";
-        this.regeneracja = 50;
+        this.regeneracja = 80;
         this.wzrost = 1;
+        this.sytosc = 120;
         this.listaGrzybków = new ArrayList<>();
+        this.Maxwiek = 6;
     }
 
-    @Override
-    public void akcja() {
 
+    public static List<Jadalna> getListaGrzybków() {
+        return listaGrzybków;
     }
-
-    public void leczenie() {
-
+    public void zwiekszWiek(){
+        wiek+=1;
     }
 
     public void setListaGrzybow(List<Jadalna> listaGrzybka){

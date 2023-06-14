@@ -5,7 +5,4 @@ public class Roślina {
     String nazwa;
     int wzrost;
     int x, y;
-    public void akcja(){
-
-    }
 }

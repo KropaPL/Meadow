@@ -6,7 +6,4 @@ public class Zwierzę {
     int życie;
     int x, y;
 
-    public void akcja() {
-
-    }
 }
