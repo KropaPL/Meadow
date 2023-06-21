@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Jadalna extends Roślina {
+public class Jadalna extends Roslina {
 
     int regeneracja;
     int sytosc;
