@@ -39,9 +39,9 @@ Program służy do symulowania życia zwierząt na łące oraz występującej na
 <br />
 Wygląd po aplikacji po włączeniu, możliwość zadania różnych parametrów początkowych:<br /><br />
 
-![Screenshot](Meadowekran.png)<br />
+![Screenshot](menu.png)<br />
 
 Wygląd wygenerowanej mapy z obiektami losowo na niej umieszonej:<br />
 
-![Screenshot](nowamapa.png)<br />
+![Screenshot](menu2.png)<br />
 
